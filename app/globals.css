@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 90 25% 96%;
+    --foreground: 150 35% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 150 35% 8%;
+    --primary: 142 72% 29%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 140 18% 90%;
+    --secondary-foreground: 150 35% 12%;
+    --muted: 140 15% 92%;
+    --muted-foreground: 150 10% 36%;
+    --accent: 45 96% 52%;
+    --accent-foreground: 40 80% 8%;
+    --destructive: 0 78% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --live: 0 78% 46%;
+    --border: 140 14% 84%;
+    --input: 140 14% 80%;
+    --ring: 142 72% 36%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 150 32% 5%;
+    --foreground: 90 20% 94%;
+    --card: 150 26% 8%;
+    --card-foreground: 90 20% 94%;
+    --primary: 142 68% 45%;
+    --primary-foreground: 150 40% 6%;
+    --secondary: 150 20% 13%;
+    --secondary-foreground: 90 20% 92%;
+    --muted: 150 18% 12%;
+    --muted-foreground: 140 10% 64%;
+    --accent: 45 96% 56%;
+    --accent-foreground: 40 80% 8%;
+    --destructive: 0 70% 52%;
+    --destructive-foreground: 0 0% 100%;
+    --live: 0 78% 52%;
+    --border: 150 18% 17%;
+    --input: 150 18% 20%;
+    --ring: 142 68% 45%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+}
+
+@layer utilities {
+  /* Mowing stripes, like a groundsman's pitch */
+  .pitch-stripes {
+    background-image: repeating-linear-gradient(
+      90deg,
+      hsl(var(--primary) / 0.07) 0,
+      hsl(var(--primary) / 0.07) 64px,
+      transparent 64px,
+      transparent 128px
+    );
+  }
+
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 2px hsl(var(--foreground) / 0.16);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
