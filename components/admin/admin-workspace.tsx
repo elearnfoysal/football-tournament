@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Pencil, Plus, RotateCw, Save, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { revalidatePublicSettings } from "@/app/admin/actions";
 import type { AdminField, AdminImageBucket, AdminLookupTable, AdminModule } from "@/lib/admin/modules";
 import { createClient } from "@/lib/supabase/client";
 
@@ -277,6 +278,19 @@ export function AdminWorkspace({ module }: { module: AdminModule }) {
       supabase.storage.from(bucket).remove([path]),
     ));
     const cleanupFailed = cleanup.some((item) => item.error);
+    if (module.table === "tournament_settings") {
+      try {
+        await revalidatePublicSettings();
+      } catch (error) {
+        console.error("[admin settings] Could not refresh public pages", error);
+        cancelEdit();
+        await load();
+        router.refresh();
+        setError("Settings were saved, but public pages could not be refreshed immediately. They may take up to 60 seconds to update.");
+        setSaving(false);
+        return;
+      }
+    }
     cancelEdit();
     setNotice(`${editingId !== null ? "Changes saved." : "Record created."}${cleanupFailed ? " The previous image could not be removed from storage." : ""}`);
     await load();

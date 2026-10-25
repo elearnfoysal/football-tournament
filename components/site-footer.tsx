@@ -59,9 +59,20 @@ export function SiteFooter({ settings }: { settings: TournamentSettings }) {
           </ul>
         </nav>
       </div>
-      <div className="border-t">
+      <div className="border-t container flex flex-col items-center justify-between gap-4 py-4 text-sm sm:flex-row">
         <p className="container py-4 text-xs text-muted-foreground">
           &copy; {new Date().getFullYear()} {settings.name}. All rights reserved.
+        </p>
+        <p className="text-xs text-muted-foreground">
+           Developed by{" "}
+          <Link
+            href="https://foysalahamed.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground hover:underline"
+          >
+            <b>Foysal Ahamed</b>
+          </Link>
         </p>
       </div>
     </footer>

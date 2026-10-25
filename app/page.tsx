@@ -27,7 +27,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero settings={data.settings} liveMatch={data.liveMatch} nextMatch={data.nextMatch} />
+      <Hero settings={data.settings} upcoming={data.upcoming} recent={data.recent} news={data.news} />
       <NewsStrip items={data.news} />
 
       <section className="container py-12">
