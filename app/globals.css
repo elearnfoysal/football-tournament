@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .object-cover {
+    -o-object-fit: contain;
+    object-fit: contain;
+  }
+}
+
 @layer base {
   :root {
     --background: 90 25% 96%;

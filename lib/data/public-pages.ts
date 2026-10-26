@@ -20,6 +20,7 @@ export const PUBLIC_SECTIONS = [
 export type PublicSection = (typeof PUBLIC_SECTIONS)[number];
 
 export interface PublicPageItem {
+  href?: string;
   title: string;
   detail?: string | null;
   meta?: string | null;
@@ -66,6 +67,7 @@ export async function getPublicPageData(section: string): Promise<PublicPageData
   switch (current) {
     case "matches": {
       const matches = await rows<{
+        id: string;
         home_score: number;
         away_score: number;
         kickoff_at: string;
@@ -82,6 +84,7 @@ export async function getPublicPageData(section: string): Promise<PublicPageData
         title: "Fixtures and results",
         description: "Every scheduled match, live score and completed result.",
         items: matches.map((match) => ({
+          href: `/matches/${match.id}`,
           title: `${one(match.home)?.name ?? "TBD"} ${match.home_score} – ${match.away_score} ${one(match.away)?.name ?? "TBD"}`,
           detail: [formatMatchDate(match.kickoff_at), formatKickoff(match.kickoff_at), match.venue].filter(Boolean).join(" · "),
           meta: `${match.round.replaceAll("_", " ")} · ${match.status}`,
@@ -118,6 +121,7 @@ export async function getPublicPageData(section: string): Promise<PublicPageData
     }
     case "teams": {
       const teams = await rows<{
+        slug: string;
         name: string;
         short_name: string | null;
         coach: string | null;
@@ -127,13 +131,14 @@ export async function getPublicPageData(section: string): Promise<PublicPageData
         "teams",
         supabase
           .from("teams")
-          .select("name,short_name,coach,logo_url,group:groups(name)")
+          .select("slug,name,short_name,coach,logo_url,group:groups(name)")
           .order("name", { ascending: true }),
       );
       return {
         title: "Teams",
         description: "Meet the clubs taking part in the tournament.",
         items: teams.map((team) => ({
+          href: `/teams/${team.slug}`,
           title: team.name,
           detail: [team.short_name, team.coach ? `Coach: ${team.coach}` : null].filter(Boolean).join(" · "),
           meta: one(team.group)?.name ?? "Group to be announced",
@@ -146,6 +151,7 @@ export async function getPublicPageData(section: string): Promise<PublicPageData
     case "players":
     case "stats": {
       const players = await rows<{
+        player_id: string;
         name: string;
         jersey_no: number;
         position: string;
@@ -160,7 +166,7 @@ export async function getPublicPageData(section: string): Promise<PublicPageData
         current === "stats" ? "player stats" : "players",
         supabase
           .from("player_stats")
-          .select("name,jersey_no,position,photo_url,team_name,goals,assists,yellow_cards,red_cards,matches_played")
+          .select("player_id,name,jersey_no,position,photo_url,team_name,goals,assists,yellow_cards,red_cards,matches_played")
           .order(current === "stats" ? "goals" : "name", { ascending: current !== "stats" }),
       );
       return {
@@ -170,6 +176,7 @@ export async function getPublicPageData(section: string): Promise<PublicPageData
             ? "Goals, assists and disciplinary records across the tournament."
             : "Tournament squads and player profiles.",
         items: players.map((player) => ({
+          href: current === "players" ? `/players/${player.player_id}` : undefined,
           title: `${player.name} · #${player.jersey_no}`,
           detail:
             current === "stats"
@@ -184,6 +191,7 @@ export async function getPublicPageData(section: string): Promise<PublicPageData
     }
     case "bracket": {
       const matches = await rows<{
+        id: string;
         home_score: number;
         away_score: number;
         kickoff_at: string;
@@ -204,6 +212,7 @@ export async function getPublicPageData(section: string): Promise<PublicPageData
         title: "Knockout bracket",
         description: "Follow the route from the round of 16 through to the final.",
         items: matches.map((match) => ({
+          href: `/matches/${match.id}`,
           title: `${one(match.home)?.name ?? "TBD"} ${match.home_score} – ${match.away_score} ${one(match.away)?.name ?? "TBD"}`,
           detail: [formatMatchDate(match.kickoff_at), formatKickoff(match.kickoff_at), match.venue].filter(Boolean).join(" · "),
           meta: `${match.round.replaceAll("_", " ")} · ${match.status}`,

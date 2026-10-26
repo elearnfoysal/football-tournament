@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/empty-state";
 import { SectionHeader } from "@/components/section-header";
@@ -35,7 +36,13 @@ export function PublicDataPage({ data }: { data: PublicPageData }) {
                     {item.meta}
                   </p>
                 )}
-                <h2 className="mt-1 font-display text-xl font-bold">{item.title}</h2>
+                <h2 className="mt-1 font-display text-xl font-bold">
+                  {item.href ? (
+                    <Link href={item.href} className="rounded-sm hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                      {item.title}
+                    </Link>
+                  ) : item.title}
+                </h2>
                 {item.detail && (
                   <p className="mt-2 whitespace-pre-line text-sm text-muted-foreground">{item.detail}</p>
                 )}
