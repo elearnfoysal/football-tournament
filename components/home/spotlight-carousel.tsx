@@ -54,8 +54,8 @@ function MatchSlide({ match, result }: { match: MatchWithTeams; result: boolean 
             key={team.id}
             className={`flex min-w-0 flex-col items-center gap-3 text-center sm:gap-4 ${index === 1 ? "col-start-3" : ""}`}
           >
-            <span className="flex h-24 w-24 items-center justify-center rounded-3xl bg-white p-3 shadow-xl sm:h-32 sm:w-32 sm:p-4">
-              <TeamLogo name={team.name} src={team.logo_url} size={96} className="max-h-full max-w-full" />
+            <span className="flex h-24 w-24 items-center justify-center sm:h-32 sm:w-32">
+              <TeamLogo name={team.name} src={team.logo_url} size={96} className="h-full w-full" />
             </span>
             <span className="w-full truncate text-base font-extrabold sm:text-xl">{team.name}</span>
           </div>

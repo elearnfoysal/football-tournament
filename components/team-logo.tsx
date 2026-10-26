@@ -18,7 +18,6 @@ export function TeamLogo({ name, src, size = 40, className }: TeamLogoProps) {
         width={size}
         height={size}
         unoptimized
-        style={{ width: size, height: size }}
         className={cn("shrink-0 object-contain", className)}
       />
     );

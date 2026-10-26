@@ -58,7 +58,7 @@ export function Hero({
                 </span>
               )}
               <div className="space-y-1 text-sm text-muted-foreground">
-                {dates && (
+                {/* {dates && (
                   <p className="flex items-center gap-2">
                     <CalendarDays className="h-4 w-4 text-primary" aria-hidden />
                     {dates}
@@ -69,7 +69,7 @@ export function Hero({
                     <MapPin className="h-4 w-4 text-primary" aria-hidden />
                     {settings.location}
                   </p>
-                )}
+                )} */}
               </div>
             </div>
           </Rise>
